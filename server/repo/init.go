@@ -1,11 +1,11 @@
 package repo
 
-import "gorm.io/gorm"
+import "github.com/jinzhu/gorm"
 
-type handler struct {
+type Repo struct {
 	DB *gorm.DB
 }
 
-func New(db *gorm.DB) handler {
-	return handler{db}
+func New(db *gorm.DB) *Repo {
+	return &Repo{db}
 }

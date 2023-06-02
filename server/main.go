@@ -10,12 +10,13 @@ import (
 	pb "github.com/elsumanta/grpcserver/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/lib/pq"
 
 	//Import internal modules
-	handler "github.com/elimSumanta/grpcserver/server/handler"
-	repo "github.com/elimSumanta/grpcserver/server/repo"
+	handler "github.com/elsumanta/grpcserver/server/handler"
+	repo "github.com/elsumanta/grpcserver/server/repo"
 )
 
 var (
@@ -34,19 +35,19 @@ func main() {
 	}
 
 	//init database connection
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", dbhost, user, password, dbname)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", dbhost, user, password, dbname, dbport)
+	db, err := gorm.Open("postgres", dsn)
 	if err != nil {
-		log.Fatalf("failed to init database: %v", err)
+		log.Fatalf("failed to connect database: %v", err)
 	}
 
 	// Init repo modules
-	repo.Init(db)
+	repo := repo.New(db)
 
 	// Init handler module
 	s := grpc.NewServer()
 	reflection.Register(s)
-	pb.RegisterGreeterServer(s, handler.Init(context.Background()))
+	pb.RegisterGreeterServer(s, handler.Init(context.Background(), repo))
 
 	// Serve port
 	log.Printf("server listening at %v", lis.Addr())

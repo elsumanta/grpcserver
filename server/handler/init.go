@@ -1,9 +1,20 @@
 package handler
 
-import "context"
+import (
+	"context"
 
-type Server struct{}
+	"github.com/elsumanta/grpcserver/server/model"
+)
 
-func Init(ctx context.Context) Server {
-	return Server{}
+type Repo interface {
+	Register(ctx context.Context, req model.Register) (num int, err error)
+}
+type Server struct {
+	repo Repo
+}
+
+func Init(ctx context.Context, repo Repo) *Server {
+	return &Server{
+		repo: repo,
+	}
 }
