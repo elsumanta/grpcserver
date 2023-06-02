@@ -6,6 +6,7 @@ import (
 	"github.com/elsumanta/grpcserver/server/model"
 )
 
+//go:generate moq -out handler_mock.go . Repo
 type Repo interface {
 	Register(ctx context.Context, req model.Register) (num int, err error)
 }
