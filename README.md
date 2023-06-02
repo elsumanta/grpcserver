@@ -1,5 +1,7 @@
 # grpcserver
 
+Architecture: Clean Architecture 
+
 Prequisite:
 1. setup go evn
 2. install grpc library https://grpc.io/docs/languages/go/quickstart/
