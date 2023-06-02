@@ -3,9 +3,9 @@
 Architecture: Clean Architecture 
 
 Prequisite:
-1. setup go evn
+1. setup go evn https://go.dev/doc/install
 2. install grpc library https://grpc.io/docs/languages/go/quickstart/
-3. install posgreSql library
+3. install posgreSql [library](https://www.postgresql.org/download/windows/)
 4. folow https://github.com/gusaul/grpcox to install grpcox interface
 
 Folder GRPC:
